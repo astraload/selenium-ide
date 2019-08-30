@@ -18,6 +18,7 @@
 export const availableLanguages = {
   'java-junit': require('code-export-java-junit'),
   'python-pytest': require('code-export-python-pytest'),
+  'javascript-astraload': require('code-export-javascript-astraload'),
   'javascript-mocha': require('code-export-javascript-mocha'),
 }
 
