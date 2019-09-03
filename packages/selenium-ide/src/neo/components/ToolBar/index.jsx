@@ -16,8 +16,12 @@
 // under the License.
 
 import React from 'react'
+import browser from 'webextension-polyfill'
+import randomatic from 'randomatic'
 import { observer } from 'mobx-react'
 import { parse } from 'modifier-keys'
+import { exportCodeToString } from '../../code-export'
+import CreateAstraloadTestButton from '../../components/ActionButtons/CreateAstraloadTest'
 import PlayAll from '../../components/ActionButtons/PlayAll'
 import PlayCurrent from '../../components/ActionButtons/PlayCurrent'
 import Pause from '../../components/ActionButtons/Pause'
@@ -35,9 +39,15 @@ import './style.css'
 
 @observer
 export default class ToolBar extends React.Component {
+  constructor(props) {
+    super(props)
+    this.handleCreateAstraloadTestButtonClick = this.handleCreateAstraloadTestButtonClick.bind(this)
+  }
+
   toggleRecord() {
     UiState.toggleRecord()
   }
+
   playAll() {
     const isInSuiteView = UiState.selectedView === 'Test suites'
 
@@ -53,6 +63,32 @@ export default class ToolBar extends React.Component {
       PlaybackState.playFilteredTestsOrResume()
     }
   }
+
+  async handleCreateAstraloadTestButtonClick() {
+    const { test } = UiState.selectedTest
+    const testCode = await exportCodeToString('javascript-astraload', test)
+    const testCodeId = randomatic('Aa0', 12)
+    const url = this.getUrlForCreatingAstraloadTest(testCodeId, test.name)
+    const win = await browser.windows.create({ url })
+    await this.passTestCodeToWindowViaSessionStorage(testCodeId, testCode, win)
+  }
+
+  getUrlForCreatingAstraloadTest(testCodeId, testName) {
+    const baseUrl = 'http://localhost:3000/new'
+    return `${baseUrl}?testCodeId=${testCodeId}&testCodeName=${encodeURI(testName)}`
+  }
+
+  async passTestCodeToWindowViaSessionStorage(testCodeId, testCode, win) {
+    const tabId = win.tabs && win.tabs[0] && win.tabs[0].id
+    const key = `testCode_${testCodeId}`
+    const value = JSON.stringify(testCode)
+    const scriptCode = `sessionStorage.setItem('${key}', ${value})`
+    await browser.tabs.executeScript(tabId, {
+      code: scriptCode,
+      runAt: 'document_start',
+    })
+  }
+
   render() {
     const isTestEmpty =
       UiState.selectedTest.test && !UiState.selectedTest.test.commands.length
@@ -116,6 +152,11 @@ export default class ToolBar extends React.Component {
           value={PlaybackState.delay}
           maxDelay={PlaybackState.maxDelay}
           onChange={PlaybackState.setDelay}
+        />
+        <CreateAstraloadTestButton
+          isActive={false}
+          disabled={isTestEmpty || UiState.isRecording}
+          onClick={this.handleCreateAstraloadTestButtonClick}
         />
         <div className="flexer" />
         <DisableBreakpoints
