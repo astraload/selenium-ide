@@ -41,7 +41,9 @@ import './style.css'
 export default class ToolBar extends React.Component {
   constructor(props) {
     super(props)
-    this.handleCreateAstraloadTestButtonClick = this.handleCreateAstraloadTestButtonClick.bind(this)
+    this.handleCreateAstraloadTestButtonClick = this.handleCreateAstraloadTestButtonClick.bind(
+      this
+    )
   }
 
   toggleRecord() {
@@ -75,7 +77,9 @@ export default class ToolBar extends React.Component {
 
   getUrlForCreatingAstraloadTest(testCodeId, testName) {
     const baseUrl = 'http://localhost:3000/new'
-    return `${baseUrl}?testCodeId=${testCodeId}&testCodeName=${encodeURI(testName)}`
+    return `${baseUrl}?testCodeId=${testCodeId}&testCodeName=${encodeURI(
+      testName
+    )}`
   }
 
   async passTestCodeToWindowViaSessionStorage(testCodeId, testCode, win) {
