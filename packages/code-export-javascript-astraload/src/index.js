@@ -32,16 +32,15 @@ opts.terminatingKeyword = ''
 opts.commentPrefix = '//'
 opts.generateMethodDeclaration = generateMethodDeclaration
 
-const suiteTerminatingKeyword = (
+const suiteTerminatingKeyword =
   '    await driver.quit();\n' +
   '  } catch (error) {\n' +
   '    await aslWebDriver.handleTestFail(error);\n' +
   '  }\n' +
   '})();'
-);
 
 // Create generators for dynamic string creation of primary entities (e.g., filename, methods, test, and suite)
-function generateTestDeclaration(name) {
+function generateTestDeclaration() {
   return ''
 }
 

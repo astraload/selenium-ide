@@ -98,7 +98,10 @@ function declareVariables() {
   const params = {
     startingSyntax: {
       commands: [
-        { level: 1, statement: 'const driver = await aslWebDriver.loadBrowserAsync();' },
+        {
+          level: 1,
+          statement: 'const driver = await aslWebDriver.loadBrowserAsync();',
+        },
         { level: 1, statement: '' },
         { level: 1, statement: 'await driver.manage().setTimeouts({' },
         { level: 2, statement: 'implicit: 3000,' },
