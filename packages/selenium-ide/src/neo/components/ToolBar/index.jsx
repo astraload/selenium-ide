@@ -77,9 +77,8 @@ export default class ToolBar extends React.Component {
 
   getUrlForCreatingAstraloadTest(testCodeId, testName) {
     const baseUrl = 'http://localhost:3000/new'
-    return `${baseUrl}?testCodeId=${testCodeId}&testCodeName=${encodeURI(
-      testName
-    )}`
+    const properTestName = encodeURI(testName)
+    return `${baseUrl}?testCodeId=${testCodeId}&testCodeName=${properTestName}`
   }
 
   async passTestCodeToWindowViaSessionStorage(testCodeId, testCode, win) {
@@ -94,6 +93,7 @@ export default class ToolBar extends React.Component {
   }
 
   render() {
+    const isTestSelected = Boolean(UiState.selectedTest.test)
     const isTestEmpty =
       UiState.selectedTest.test && !UiState.selectedTest.test.commands.length
     const isCommandValid =
@@ -159,7 +159,7 @@ export default class ToolBar extends React.Component {
         />
         <CreateAstraloadTestButton
           isActive={false}
-          disabled={isTestEmpty || UiState.isRecording}
+          disabled={!isTestSelected || isTestEmpty || UiState.isRecording}
           onClick={this.handleCreateAstraloadTestButtonClick}
         />
         <div className="flexer" />

@@ -76,6 +76,5 @@ export async function exportCodeToString(language, test) {
     enableOriginTracing: false,
   }
   const emittedCode = await exporter.emit.test(language, options)
-  ModalState.cancelCodeExport()
   return emittedCode && emittedCode.body
 }
