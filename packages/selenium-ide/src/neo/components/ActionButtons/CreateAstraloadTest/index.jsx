@@ -25,7 +25,7 @@ export default class CreateAstraloadTestButton extends React.Component {
       <ActionButton
         data-tip={`<p>Create Astraload test</p>`}
         {...this.props}
-        className={classNames('si-play', this.props.className)}
+        className={classNames('si-open-tab', this.props.className)}
       /> // eslint-disable-line react/prop-types
     )
   }
