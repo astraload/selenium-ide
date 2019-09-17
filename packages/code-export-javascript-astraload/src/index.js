@@ -83,6 +83,7 @@ export async function emitTest({
   })
   const suiteName = test.name
   const suiteDeclaration = generateSuiteDeclaration(suiteName)
+  commentOutUserIdAssignments(result)
   const _suite = await exporter.emit.suite(result, tests, {
     ...opts,
     terminatingKeyword: suiteTerminatingKeyword,
@@ -94,6 +95,15 @@ export async function emitTest({
     filename: generateFilename(test.name),
     body: exporter.emit.orderedSuite(_suite),
   }
+}
+
+function commentOutUserIdAssignments(result) {
+  const { commands } = result
+  const userIdAssignmentRegExp = /vars\["userId"] =/g
+  result.commands = commands.replace(
+    userIdAssignmentRegExp,
+    '// vars["userId"] ='
+  )
 }
 
 // Emit a suite with all of its tests
