@@ -109,7 +109,7 @@ function declareVariables() {
         { level: 2, statement: 'script: 60000,' },
         { level: 1, statement: '});' },
         { level: 1, statement: '' },
-        { level: 1, statement: 'let vars = {}' },
+        { level: 1, statement: 'const vars = { userId };' },
       ],
     },
   }
