@@ -76,7 +76,7 @@ export default class ToolBar extends React.Component {
   }
 
   getUrlForCreatingAstraloadTest(testCodeId, testName) {
-    const baseUrl = 'http://localhost:3000/new'
+    const baseUrl = 'http://localhost:3000/start-a-load-test'
     const fileNameInvalidCharacters = /[\\/|<>:;*?&%$#^()[\]{}+="'`„“\s]/g
     const sanitizedTestName = testName
       .replace(/ /g, '_')
