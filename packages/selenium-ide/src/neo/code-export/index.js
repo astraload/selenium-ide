@@ -64,3 +64,17 @@ export async function exportCodeToFile(
   }
   ModalState.cancelCodeExport()
 }
+
+export async function exportCodeToString(language, test) {
+  const project = UiState.project.toJS()
+  const { url, tests } = project
+  let options = {
+    url,
+    tests,
+    test,
+    project,
+    enableOriginTracing: false,
+  }
+  const emittedCode = await exporter.emit.test(language, options)
+  return emittedCode && emittedCode.body
+}
